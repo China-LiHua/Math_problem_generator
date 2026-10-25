@@ -4,10 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>题库练习 - GMP 出题引擎</title>
-  <script>
-    var basePath = location.protocol === 'file:' ? './' : '/Math_problem_generator/does/';
-    document.write('<link rel="stylesheet" href="' + basePath + 'css/style.css">');
-  </script>
+  <link rel="stylesheet" href="./css/style.css">
   <style>
     .practice-container { max-width: 1200px; width: 100%; margin: 120px auto 100px; padding: 0 40px; box-sizing: border-box; }
     .practice-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
@@ -58,7 +55,7 @@
         <button class="toggle-btn" id="btn-terminal" onclick="setView('terminal')">终端</button>
       </div>
     </div>
-
+    
     <div class="practice-box" id="normal-view">
       <div class="practice-title">随堂练习</div>
       <div class="question-content" id="question-text">正在生成题目...</div>
@@ -102,7 +99,7 @@
       let distance = nums.reduce((acc, val) => acc + Math.abs(parseInt(val)), 0);
       let direction = sum >= 0 ? "东" : "西";
       let absSum = Math.abs(sum);
-
+      
       let questions = [
         { q: "巡逻车最后停在什么位置？在岗亭的哪个方向，有多远？", a: `最后停在原点${direction}边 ${absSum} 千米处。` },
         { q: "这次巡逻一共行驶了多少千米？", a: `一共行驶了 ${distance} 千米。` },
@@ -110,7 +107,7 @@
       ];
       let randomQ = questions[Math.floor(Math.random() * questions.length)];
       let desc = "一辆巡逻车从岗亭出发(岗亭记为原点0)，规定向东为正、向西为负。\n巡逻车在一段时间内的行驶记录如下(单位:千米):\n\n";
-
+      
       return { question: desc + record + "\n\n(1) " + randomQ.q, answer: randomQ.a };
     }
 
@@ -120,7 +117,7 @@
       const slider = document.getElementById('view-slider');
       const btnNormal = document.getElementById('btn-normal');
       const btnTerminal = document.getElementById('btn-terminal');
-
+      
       if (type === 'normal') {
         isTerminalMode = false;
         if (typeTimer) clearTimeout(typeTimer);
@@ -143,24 +140,24 @@
     function startTerminalTyping() {
       if (!isTerminalMode) return;
       if (typeTimer) clearTimeout(typeTimer);
-
+      
       const out = document.getElementById('terminal-output');
       const actions = document.getElementById('terminal-actions');
       const btnAnswer = document.getElementById('btn-term-answer');
-
+      
       actions.style.display = 'none'; 
       btnAnswer.style.display = 'inline-block'; 
-
+      
       const basePrefix = "你好，我是你的出题 AI-GMP\n\n";
       const data = createQuestionData();
       terminalAnswer = data.answer; 
       const fullText = basePrefix + data.question;
-
+      
       out.textContent = basePrefix;
       const cursor = document.createElement('span');
       cursor.className = 'cursor';
       out.appendChild(cursor);
-
+      
       let currentLength = basePrefix.length;
 
       function typeStep() {
@@ -188,7 +185,7 @@
       ansLine.style.marginTop = '20px';
       ansLine.style.color = '#4af626';
       ansLine.textContent = '> ' + terminalAnswer;
-
+      
       out.appendChild(ansLine);
       btnAnswer.style.display = 'none'; 
       out.scrollTop = out.scrollHeight;
