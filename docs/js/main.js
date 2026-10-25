@@ -10,9 +10,6 @@ setTimeout(function() { document.documentElement.style.scrollBehavior = ''; }, 1
 (function () {
   'use strict';
 
-  var isOnline = location.protocol === 'http:' || location.protocol === 'https:';
-  var basePath = isOnline ? '/Math_problem_generator/does/' : './';
-
   // 默认配置
   var siteConfig = {
     badgeText: "GMP 出题引擎现已更新至 V1.0 版本，支持随机题库，欢迎体验",
@@ -20,8 +17,8 @@ setTimeout(function() { document.documentElement.style.scrollBehavior = ''; }, 1
     startTime: "2026/10/24 17:11:00"
   };
 
-  // 尝试读取 config.json
-  fetch(basePath + 'config.json')
+  // 直接读取 config.json (相对路径)
+  fetch('./config.json')
     .then(function(res) { return res.json(); })
     .then(function(data) {
       siteConfig = Object.assign(siteConfig, data);
@@ -31,7 +28,7 @@ setTimeout(function() { document.documentElement.style.scrollBehavior = ''; }, 1
       // 应用配置
       var badgeLinkEl = document.getElementById('config-badge-link');
       if (badgeLinkEl) badgeLinkEl.href = siteConfig.badgeLink;
-
+      
       var badgeTextEl = document.getElementById('config-badge-text');
       if (badgeTextEl) badgeTextEl.textContent = siteConfig.badgeText;
 
@@ -59,7 +56,7 @@ setTimeout(function() { document.documentElement.style.scrollBehavior = ''; }, 1
     function updateRuntime() {
       var now = new Date().getTime();
       var diff = now - startTime;
-
+      
       if (diff < 0) diff = 0; 
 
       var totalSec = Math.floor(diff / 1000);
@@ -78,7 +75,7 @@ setTimeout(function() { document.documentElement.style.scrollBehavior = ''; }, 1
         document.getElementById('rt-sec').textContent = sec;
       }
     }
-
+    
     setInterval(updateRuntime, 500);
     updateRuntime();
   }
@@ -136,7 +133,7 @@ setTimeout(function() { document.documentElement.style.scrollBehavior = ''; }, 1
     var btnEn = document.getElementById('btn-en');
     var slider = document.getElementById('locale-slider');
     if (!btnZh || !btnEn) return;
-
+    
     function setLang(lang) {
       if (lang === 'zh') {
         btnZh.classList.add('is-active');
@@ -147,7 +144,7 @@ setTimeout(function() { document.documentElement.style.scrollBehavior = ''; }, 1
         btnZh.classList.remove('is-active');
         if (slider) slider.style.transform = 'translateX(100%)';
       }
-
+      
       var dict = fallbackI18nDict[lang] || fallbackI18nDict.zh;
       document.querySelectorAll('[data-i18n]').forEach(function (el) {
         var key = el.getAttribute('data-i18n');
@@ -204,16 +201,16 @@ setTimeout(function() { document.documentElement.style.scrollBehavior = ''; }, 1
       nums.push(num > 0 ? "+" + num : "" + num);
     }
     var record = nums.join("、") + "\n\n";
-
+    
     var questions = [
       "巡逻车最后停在什么位置？在岗亭的哪个方向，有多远？",
       "这次巡逻一共行驶了多少千米？",
       "若巡逻车每千米耗油0.1升，这次巡逻共耗油多少升？"
     ];
-
+    
     var randomIndex = Math.floor(Math.random() * questions.length);
     var selectedQuestion = "(1)" + questions[randomIndex];
-
+    
     return desc + record + selectedQuestion;
   }
 
@@ -223,7 +220,7 @@ setTimeout(function() { document.documentElement.style.scrollBehavior = ''; }, 1
   function startMiniTerminal() {
     var out = document.getElementById('card-terminal-output');
     if (!out) return;
-
+    
     var generateQuestion = window.__GMP_GENERATOR__ || fallbackGenerate;
     var typeSpeed = 50; 
     var deleteSpeed = 25; 
@@ -231,22 +228,22 @@ setTimeout(function() { document.documentElement.style.scrollBehavior = ''; }, 1
     function loop() {
       var questionText = generateQuestion(7);
       var fullText = basePrefix + questionText;
-
+      
       out.textContent = basePrefix;
       var cursor = document.createElement('span');
       cursor.className = 'cursor';
       out.appendChild(cursor);
-
+      
       var currentLength = basePrefix.length;
 
       function typeStep() {
         if (currentLength < fullText.length) {
           currentLength++;
           var displayText = fullText.substring(0, currentLength);
-
+          
           out.textContent = displayText;
           out.appendChild(cursor);
-
+          
           timer = setTimeout(typeStep, typeSpeed);
         } else {
           timer = setTimeout(deleteStep, 2500);
@@ -257,10 +254,10 @@ setTimeout(function() { document.documentElement.style.scrollBehavior = ''; }, 1
         if (currentLength > basePrefix.length) {
           currentLength--;
           var displayText = fullText.substring(0, currentLength);
-
+          
           out.textContent = displayText;
           out.appendChild(cursor);
-
+          
           timer = setTimeout(deleteStep, deleteSpeed);
         } else {
           timer = setTimeout(loop, 500);
@@ -275,9 +272,9 @@ setTimeout(function() { document.documentElement.style.scrollBehavior = ''; }, 1
 
   // ================= 模块加载与初始化 =================
   Promise.all([
-    import(basePath + 'js/ui.js').catch(function () { return null; }),
-    import(basePath + 'js/i18n.js').catch(function () { return null; }),
-    import(basePath + 'js/generator.js').catch(function () { return null; })
+    import('./js/ui.js').catch(function () { return null; }),
+    import('./js/i18n.js').catch(function () { return null; }),
+    import('./js/generator.js').catch(function () { return null; })
   ]).then(function (mods) {
     var uiMod = mods[0];
     var i18nMod = mods[1];
