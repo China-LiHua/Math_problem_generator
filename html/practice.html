@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>题库练习 - GMP 出题引擎</title>
+  <script>
+    var isOnline = location.protocol === 'http:' || location.protocol === 'https:';
+    var basePath = isOnline ? '/Math_problem_generator/html/' : './';
+    document.write('<link rel="stylesheet" href="' + basePath + 'css/style.css">');
+  </script>
+  <style>
+    .practice-container {
+      max-width: 1200px; 
+      width: 100%;
+      margin: 120px auto 100px;
+      padding: 0 40px;
+      box-sizing: border-box;
+    }
+
+    .practice-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .back-link {
+      color: var(--ds-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.25s;
+    }
+    .back-link:hover {
+      color: var(--ds-brand-medium);
+    }
+
+    .view-toggle {
+      position: relative;
+      display: flex;
+      border: 1px solid #e0e0e0;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 2px;
+      width: 140px;
+    }
+    .toggle-slider {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: calc(50% - 2px);
+      height: calc(100% - 4px);
+      background: var(--ds-brand-medium);
+      border-radius: 18px;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 0;
+    }
+    .toggle-btn {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      padding: 6px 0;
+      border: none;
+      background: transparent;
+      font-size: 13px;
+      cursor: pointer;
+      color: var(--ds-secondary);
+      transition: color 0.25s;
+      text-align: center;
+      font-weight: 600;
+    }
+    .toggle-btn.active {
+      color: #fff;
+    }
+
+    .practice-box {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 60px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      border: 1px solid var(--ds-border);
+      position: relative;
+    }
+    .practice-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 30px;
+      color: var(--ds-primary);
+      display: flex;
+      align-items: center;
+    }
+    .practice-title::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 24px;
+      background: var(--ds-brand-medium);
+      border-radius: 4px;
+      margin-right: 12px;
+    }
+    .question-content {
+      font-size: 18px;
+      line-height: 1.8;
+      color: var(--ds-primary);
+      margin-bottom: 40px;
+      white-space: pre-wrap;
+    }
+    .answer-content {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--ds-brand-medium);
+      background: #f0f4ff;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 40px;
+      display: none;
+      white-space: pre-wrap;
+      border-left: 4px solid var(--ds-brand-medium);
+    }
+    .btn-group {
+      display: flex;
+      gap: 16px;
+    }
+    .ds-btn {
+      padding: 12px 30px;
+      border-radius: 20px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s;
+    }
+    .ds-btn-primary {
+      background: var(--ds-brand-medium);
+      color: #fff;
+    }
+    .ds-btn-primary:hover {
+      background: #3450d9;
+      transform: translateY(-2px);
+    }
+    .ds-btn-secondary {
+      background: #f0f4ff;
+      color: var(--ds-brand-medium);
+    }
+    .ds-btn-secondary:hover {
+      background: #e0e7ff;
+    }
+
+    .terminal-view {
+      display: none;
+      background: #1e1e1e;
+      border-radius: 24px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+      overflow: hidden;
+      aspect-ratio: 16 / 9; 
+      width: 100%;
+      flex-direction: column;
+      flex-shrink: 0; 
+    }
+    .terminal-header {
+      background: #2d2d2d;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .term-dot { width: 12px; height: 12px; border-radius: 50%; margin-right: 8px; }
+    .term-red { background: #ff5f56; }
+    .term-yellow { background: #ffbd2e; }
+    .term-green { background: #27c93f; }
+    .term-title {
+      color: #999;
+      font-size: 13px;
+      margin-left: 10px;
+      flex-grow: 1;
+      text-align: center;
+      font-family: 'Courier New', Courier, monospace;
+    }
+    .terminal-body {
+      padding: 40px 50px;
+      color: #4af626;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 20px; 
+      line-height: 1.8;
+      flex: 1;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      scrollbar-width: none; 
+      -ms-overflow-style: none; 
+    }
+    .terminal-body::-webkit-scrollbar { display: none; }
+    .terminal-body .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 1.1em;
+      background: #4af626;
+      vertical-align: text-bottom;
+      animation: blink 1s steps(1) infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .terminal-actions {
+      padding: 0 50px 40px 50px;
+      display: none; 
+      flex-shrink: 0;
+      gap: 16px; 
+    }
+    .term-btn {
+      background: transparent;
+      color: #4af626;
+      border: 1px solid #4af626;
+      padding: 12px 30px;
+      border-radius: 6px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .term-btn:hover {
+      background: #4af626;
+      color: #1e1e1e;
+    }
+  </style>
+</head>
+<body>
+  <nav class="ds-header">
+    <div class="ds-header-bar">
+      <a href="./index.html" class="ds-logo">GMP</a>
+    </div>
+  </nav>
+
+  <div class="practice-container">
+    <div class="practice-header">
+      <a href="./index.html" class="back-link">&larr; 返回</a>
+
+      <div class="view-toggle">
+        <div class="toggle-slider" id="view-slider"></div>
+        <button class="toggle-btn active" id="btn-normal" onclick="setView('normal')">普通</button>
+        <button class="toggle-btn" id="btn-terminal" onclick="setView('terminal')">终端</button>
+      </div>
+    </div>
+
+    <div class="practice-box" id="normal-view">
+      <div class="practice-title">随堂练习</div>
+      <div class="question-content" id="question-text">正在生成题目...</div>
+      <div class="answer-content" id="answer-text"></div>
+
+      <div class="btn-group">
+        <button class="ds-btn ds-btn-primary" onclick="generateNewNormal()">换一题</button>
+        <button class="ds-btn ds-btn-secondary" onclick="toggleAnswer()" id="toggle-btn">查看答案</button>
+      </div>
+    </div>
+
+    <div class="terminal-view" id="terminal-view">
+      <div class="terminal-header">
+        <span class="term-dot term-red"></span>
+        <span class="term-dot term-yellow"></span>
+        <span class="term-dot term-green"></span>
+        <span class="term-title">terminal</span>
+      </div>
+      <div class="terminal-body" id="terminal-output"></div>
+      <div class="terminal-actions" id="terminal-actions">
+        <button class="term-btn" onclick="showTerminalAnswer()" id="btn-term-answer">查看答案</button>
+        <button class="term-btn" onclick="regenerateTerminal()">重新生成</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentAnswer = "";
+    let terminalAnswer = "";
+    let typeTimer = null;
+    let isTerminalMode = false;
+
+    function createQuestionData() {
+      let nums = [];
+      let count = Math.floor(Math.random() * 3) + 4; 
+      for (let i = 0; i < count; i++) {
+        let num = Math.floor(Math.random() * 41) - 20;
+        nums.push(num > 0 ? `+${num}` : `${num}`);
+      }
+      let record = nums.join("、");
+      let sum = nums.reduce((acc, val) => acc + parseInt(val), 0);
+      let distance = nums.reduce((acc, val) => acc + Math.abs(parseInt(val)), 0);
+      let direction = sum >= 0 ? "东" : "西";
+      let absSum = Math.abs(sum);
+
+      let questions = [
+        { q: "巡逻车最后停在什么位置？在岗亭的哪个方向，有多远？", a: `最后停在原点${direction}边 ${absSum} 千米处。` },
+        { q: "这次巡逻一共行驶了多少千米？", a: `一共行驶了 ${distance} 千米。` },
+        { q: "若巡逻车每千米耗油0.1升，这次巡逻共耗油多少升？", a: `共耗油 ${(distance * 0.1).toFixed(1)} 升。` }
+      ];
+      let randomQ = questions[Math.floor(Math.random() * questions.length)];
+      let desc = "一辆巡逻车从岗亭出发(岗亭记为原点0)，规定向东为正、向西为负。\n巡逻车在一段时间内的行驶记录如下(单位:千米):\n\n";
+
+      return {
+        question: desc + record + "\n\n(1) " + randomQ.q,
+        answer: randomQ.a
+      };
+    }
+
+    function setView(type) {
+      const normalView = document.getElementById('normal-view');
+      const terminalView = document.getElementById('terminal-view');
+      const slider = document.getElementById('view-slider');
+      const btnNormal = document.getElementById('btn-normal');
+      const btnTerminal = document.getElementById('btn-terminal');
+
+      if (type === 'normal') {
+        isTerminalMode = false;
+        if (typeTimer) clearTimeout(typeTimer);
+        normalView.style.display = 'block';
+        terminalView.style.display = 'none';
+        slider.style.transform = 'translateX(0)';
+        btnNormal.classList.add('active');
+        btnTerminal.classList.remove('active');
+      } else {
+        isTerminalMode = true;
+        normalView.style.display = 'none';
+        terminalView.style.display = 'flex';
+        slider.style.transform = 'translateX(100%)';
+        btnTerminal.classList.add('active');
+        btnNormal.classList.remove('active');
+        startTerminalTyping();
+      }
+    }
+
+    function startTerminalTyping() {
+      if (!isTerminalMode) return;
+      if (typeTimer) clearTimeout(typeTimer);
+
+      const out = document.getElementById('terminal-output');
+      const actions = document.getElementById('terminal-actions');
+      const btnAnswer = document.getElementById('btn-term-answer');
+
+      actions.style.display = 'none'; 
+      btnAnswer.style.display = 'inline-block'; 
+
+      const basePrefix = "你好，我是你的出题 AI-GMP\n\n";
+      const data = createQuestionData();
+      terminalAnswer = data.answer; 
+      const fullText = basePrefix + data.question;
+
+      out.textContent = basePrefix;
+      const cursor = document.createElement('span');
+      cursor.className = 'cursor';
+      out.appendChild(cursor);
+
+      let currentLength = basePrefix.length;
+
+      function typeStep() {
+        if (!isTerminalMode) return;
+        if (currentLength < fullText.length) {
+          currentLength++;
+          out.textContent = fullText.substring(0, currentLength);
+          out.appendChild(cursor);
+          typeTimer = setTimeout(typeStep, 40);
+          out.scrollTop = out.scrollHeight;
+        } else {
+          actions.style.display = 'flex';
+        }
+      }
+
+      typeStep();
+    }
+
+    function showTerminalAnswer() {
+      const out = document.getElementById('terminal-output');
+      const btnAnswer = document.getElementById('btn-term-answer');
+      if (document.getElementById('term-answer-line')) return;
+
+      const ansLine = document.createElement('div');
+      ansLine.id = 'term-answer-line';
+      ansLine.style.marginTop = '20px';
+      ansLine.style.color = '#4af626';
+      ansLine.textContent = '> ' + terminalAnswer;
+
+      out.appendChild(ansLine);
+      btnAnswer.style.display = 'none'; 
+      out.scrollTop = out.scrollHeight;
+    }
+
+    function regenerateTerminal() {
+      startTerminalTyping();
+    }
+
+    function generateNewNormal() {
+      const data = createQuestionData();
+      document.getElementById('question-text').textContent = data.question;
+      currentAnswer = data.answer;
+      document.getElementById('answer-text').style.display = 'none';
+      document.getElementById('toggle-btn').textContent = '查看答案';
+    }
+
+    function toggleAnswer() {
+      let ansDiv = document.getElementById('answer-text');
+      let btn = document.getElementById('toggle-btn');
+      if (ansDiv.style.display === 'block') {
+        ansDiv.style.display = 'none';
+        btn.textContent = '查看答案';
+      } else {
+        ansDiv.textContent = currentAnswer;
+        ansDiv.style.display = 'block';
+        btn.textContent = '隐藏答案';
+      }
+    }
+
+    window.onload = generateNewNormal;
+  </script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>详细信息 - GMP 出题引擎</title>
+  <script>
+    var isOnline = location.protocol === 'http:' || location.protocol === 'https:';
+    var basePath = isOnline ? '/Math_problem_generator/html/' : './';
+    document.write('<link rel="stylesheet" href="' + basePath + 'css/style.css">');
+  </script>
+  <style>
+    .info-container {
+      max-width: 880px;
+      margin: 150px auto 100px;
+      padding: 0 20px;
+    }
+    .info-box {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 60px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      border: 1px solid var(--ds-border);
+    }
+    .info-title {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 30px;
+      color: var(--ds-primary);
+      letter-spacing: 1px;
+    }
+    .info-subtitle {
+      font-size: 20px;
+      font-weight: 700;
+      margin-top: 40px;
+      margin-bottom: 16px;
+      color: var(--ds-primary);
+      display: flex;
+      align-items: center;
+    }
+    .info-subtitle::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 20px;
+      background: var(--ds-brand-medium);
+      border-radius: 4px;
+      margin-right: 12px;
+    }
+    .info-text {
+      font-size: 16px;
+      line-height: 1.9;
+      color: var(--ds-secondary);
+      margin-bottom: 20px;
+    }
+    .info-text strong {
+      color: var(--ds-primary);
+      font-weight: 600;
+    }
+    .info-list {
+      list-style: none;
+      padding-left: 0;
+    }
+    .info-list li {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--ds-secondary);
+      margin-bottom: 12px;
+      position: relative;
+      padding-left: 20px;
+    }
+    .info-list li::before {
+      content: "•";
+      color: var(--ds-brand-medium);
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+    }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: var(--ds-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.25s;
+    }
+    .back-link:hover {
+      color: var(--ds-brand-medium);
+    }
+  </style>
+</head>
+<body>
+  <nav class="ds-header">
+    <div class="ds-header-bar">
+      <a href="./index.html" class="ds-logo">GMP</a>
+    </div>
+  </nav>
+
+  <div class="info-container">
+    <a href="./index.html" class="back-link">&larr; 返回首页</a>
+
+    <div class="info-box">
+      <div class="info-title">关于 GMP 出题引擎</div>
+      <div class="info-text">
+        <strong>GMP 出题引擎</strong> 是一款专为初中生打造的极简数学练习工具。我们摒弃了传统题库的臃肿与繁琐，将核心算法与现代化的前端交互完美结合，旨在为你提供最纯粹、最高效的数学思维训练体验。
+      </div>
+
+      <div class="info-subtitle">我们的核心理念</div>
+      <ul class="info-list">
+        <li><strong>算法驱动：</strong> 告别死记硬背，题目数据每次运行自动随机生成，同一题型永远不同的数字。</li>
+        <li><strong>极客交互：</strong> 采用终端界面的打字机特效，让做题就像在调试一段精妙的程序。</li>
+        <li><strong>极速响应：</strong> 采用 ES6 模块化按需加载架构，首屏加载几乎是瞬时的。</li>
+        <li><strong>随时随地：</strong> 无需下载安装，只要有浏览器，打开网页即可练习。</li>
+      </ul>
+
+      <div class="info-subtitle">功能特点</div>
+      <div class="info-text">
+        目前引擎内置了七年级数学的巡逻车坐标与行程问题，支持普通模式与终端模式自由切换。你可以一键生成题目，在思考完毕后随时查看详细解析。
+      </div>
+
+      <div class="info-subtitle">技术架构</div>
+      <div class="info-text">
+        本项目完全基于纯前端技术构建（HTML5 / CSS3 / Vanilla JS），无任何后端依赖。通过动态 `import()` 实现了真正的按需加载，大幅减少带宽消耗。即使你直接在本地双击打开 HTML 文件，内置的降级方案也能保证所有功能完美运行。
+      </div>
+    </div>
+  </div>
+</body>
+</html>
