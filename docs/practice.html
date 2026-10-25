@@ -9,217 +9,37 @@
     document.write('<link rel="stylesheet" href="' + basePath + 'css/style.css">');
   </script>
   <style>
-    .practice-container {
-      max-width: 1200px; 
-      width: 100%;
-      margin: 120px auto 100px;
-      padding: 0 40px;
-      box-sizing: border-box;
-    }
-
-    .practice-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .back-link {
-      color: var(--ds-secondary);
-      text-decoration: none;
-      font-size: 14px;
-      transition: color 0.25s;
-    }
-    .back-link:hover {
-      color: var(--ds-brand-medium);
-    }
-
-    .view-toggle {
-      position: relative;
-      display: flex;
-      border: 1px solid #e0e0e0;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.8);
-      padding: 2px;
-      width: 140px;
-    }
-    .toggle-slider {
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      width: calc(50% - 2px);
-      height: calc(100% - 4px);
-      background: var(--ds-brand-medium);
-      border-radius: 18px;
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      z-index: 0;
-    }
-    .toggle-btn {
-      position: relative;
-      z-index: 1;
-      flex: 1;
-      padding: 6px 0;
-      border: none;
-      background: transparent;
-      font-size: 13px;
-      cursor: pointer;
-      color: var(--ds-secondary);
-      transition: color 0.25s;
-      text-align: center;
-      font-weight: 600;
-    }
-    .toggle-btn.active {
-      color: #fff;
-    }
-
-    .practice-box {
-      background: #ffffff;
-      border-radius: 24px;
-      padding: 60px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-      border: 1px solid var(--ds-border);
-      position: relative;
-    }
-    .practice-title {
-      font-size: 24px;
-      font-weight: 700;
-      margin-bottom: 30px;
-      color: var(--ds-primary);
-      display: flex;
-      align-items: center;
-    }
-    .practice-title::before {
-      content: '';
-      display: inline-block;
-      width: 6px;
-      height: 24px;
-      background: var(--ds-brand-medium);
-      border-radius: 4px;
-      margin-right: 12px;
-    }
-    .question-content {
-      font-size: 18px;
-      line-height: 1.8;
-      color: var(--ds-primary);
-      margin-bottom: 40px;
-      white-space: pre-wrap;
-    }
-    .answer-content {
-      font-size: 16px;
-      line-height: 1.8;
-      color: var(--ds-brand-medium);
-      background: #f0f4ff;
-      padding: 20px;
-      border-radius: 12px;
-      margin-bottom: 40px;
-      display: none;
-      white-space: pre-wrap;
-      border-left: 4px solid var(--ds-brand-medium);
-    }
-    .btn-group {
-      display: flex;
-      gap: 16px;
-    }
-    .ds-btn {
-      padding: 12px 30px;
-      border-radius: 20px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      transition: all 0.3s;
-    }
-    .ds-btn-primary {
-      background: var(--ds-brand-medium);
-      color: #fff;
-    }
-    .ds-btn-primary:hover {
-      background: #3450d9;
-      transform: translateY(-2px);
-    }
-    .ds-btn-secondary {
-      background: #f0f4ff;
-      color: var(--ds-brand-medium);
-    }
-    .ds-btn-secondary:hover {
-      background: #e0e7ff;
-    }
-
-    .terminal-view {
-      display: none;
-      background: #1e1e1e;
-      border-radius: 24px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.15);
-      overflow: hidden;
-      aspect-ratio: 16 / 9; 
-      width: 100%;
-      flex-direction: column;
-      flex-shrink: 0; 
-    }
-    .terminal-header {
-      background: #2d2d2d;
-      padding: 14px 20px;
-      display: flex;
-      align-items: center;
-      flex-shrink: 0;
-    }
+    .practice-container { max-width: 1200px; width: 100%; margin: 120px auto 100px; padding: 0 40px; box-sizing: border-box; }
+    .practice-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .back-link { color: var(--ds-secondary); text-decoration: none; font-size: 14px; transition: color 0.25s; }
+    .back-link:hover { color: var(--ds-brand-medium); }
+    .view-toggle { position: relative; display: flex; border: 1px solid #e0e0e0; border-radius: 20px; background: rgba(255, 255, 255, 0.8); padding: 2px; width: 140px; }
+    .toggle-slider { position: absolute; top: 2px; left: 2px; width: calc(50% - 2px); height: calc(100% - 4px); background: var(--ds-brand-medium); border-radius: 18px; transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); z-index: 0; }
+    .toggle-btn { position: relative; z-index: 1; flex: 1; padding: 6px 0; border: none; background: transparent; font-size: 13px; cursor: pointer; color: var(--ds-secondary); transition: color 0.25s; text-align: center; font-weight: 600; }
+    .toggle-btn.active { color: #fff; }
+    .practice-box { background: #ffffff; border-radius: 24px; padding: 60px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid var(--ds-border); position: relative; }
+    .practice-title { font-size: 24px; font-weight: 700; margin-bottom: 30px; color: var(--ds-primary); display: flex; align-items: center; }
+    .practice-title::before { content: ''; display: inline-block; width: 6px; height: 24px; background: var(--ds-brand-medium); border-radius: 4px; margin-right: 12px; }
+    .question-content { font-size: 18px; line-height: 1.8; color: var(--ds-primary); margin-bottom: 40px; white-space: pre-wrap; }
+    .answer-content { font-size: 16px; line-height: 1.8; color: var(--ds-brand-medium); background: #f0f4ff; padding: 20px; border-radius: 12px; margin-bottom: 40px; display: none; white-space: pre-wrap; border-left: 4px solid var(--ds-brand-medium); }
+    .btn-group { display: flex; gap: 16px; }
+    .ds-btn { padding: 12px 30px; border-radius: 20px; font-size: 16px; font-weight: 600; cursor: pointer; border: none; transition: all 0.3s; }
+    .ds-btn-primary { background: var(--ds-brand-medium); color: #fff; }
+    .ds-btn-primary:hover { background: #3450d9; transform: translateY(-2px); }
+    .ds-btn-secondary { background: #f0f4ff; color: var(--ds-brand-medium); }
+    .ds-btn-secondary:hover { background: #e0e7ff; }
+    .terminal-view { display: none; background: #1e1e1e; border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.15); overflow: hidden; aspect-ratio: 16 / 9; width: 100%; flex-direction: column; flex-shrink: 0; }
+    .terminal-header { background: #2d2d2d; padding: 14px 20px; display: flex; align-items: center; flex-shrink: 0; }
     .term-dot { width: 12px; height: 12px; border-radius: 50%; margin-right: 8px; }
-    .term-red { background: #ff5f56; }
-    .term-yellow { background: #ffbd2e; }
-    .term-green { background: #27c93f; }
-    .term-title {
-      color: #999;
-      font-size: 13px;
-      margin-left: 10px;
-      flex-grow: 1;
-      text-align: center;
-      font-family: 'Courier New', Courier, monospace;
-    }
-    .terminal-body {
-      padding: 40px 50px;
-      color: #4af626;
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 20px; 
-      line-height: 1.8;
-      flex: 1;
-      overflow-y: auto;
-      white-space: pre-wrap;
-      word-break: break-word;
-      scrollbar-width: none; 
-      -ms-overflow-style: none; 
-    }
+    .term-red { background: #ff5f56; } .term-yellow { background: #ffbd2e; } .term-green { background: #27c93f; }
+    .term-title { color: #999; font-size: 13px; margin-left: 10px; flex-grow: 1; text-align: center; font-family: 'Courier New', Courier, monospace; }
+    .terminal-body { padding: 40px 50px; color: #4af626; font-family: 'Courier New', Courier, monospace; font-size: 20px; line-height: 1.8; flex: 1; overflow-y: auto; white-space: pre-wrap; word-break: break-word; scrollbar-width: none; -ms-overflow-style: none; }
     .terminal-body::-webkit-scrollbar { display: none; }
-    .terminal-body .cursor {
-      display: inline-block;
-      width: 10px;
-      height: 1.1em;
-      background: #4af626;
-      vertical-align: text-bottom;
-      animation: blink 1s steps(1) infinite;
-    }
+    .terminal-body .cursor { display: inline-block; width: 10px; height: 1.1em; background: #4af626; vertical-align: text-bottom; animation: blink 1s steps(1) infinite; }
     @keyframes blink { 50% { opacity: 0; } }
-
-    .terminal-actions {
-      padding: 0 50px 40px 50px;
-      display: none; 
-      flex-shrink: 0;
-      gap: 16px; 
-    }
-    .term-btn {
-      background: transparent;
-      color: #4af626;
-      border: 1px solid #4af626;
-      padding: 12px 30px;
-      border-radius: 6px;
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 16px;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    .term-btn:hover {
-      background: #4af626;
-      color: #1e1e1e;
-    }
+    .terminal-actions { padding: 0 50px 40px 50px; display: none; flex-shrink: 0; gap: 16px; }
+    .term-btn { background: transparent; color: #4af626; border: 1px solid #4af626; padding: 12px 30px; border-radius: 6px; font-family: 'Courier New', Courier, monospace; font-size: 16px; cursor: pointer; transition: all 0.3s; }
+    .term-btn:hover { background: #4af626; color: #1e1e1e; }
   </style>
 </head>
 <body>
@@ -232,7 +52,6 @@
   <div class="practice-container">
     <div class="practice-header">
       <a href="./index.html" class="back-link">&larr; 返回</a>
-
       <div class="view-toggle">
         <div class="toggle-slider" id="view-slider"></div>
         <button class="toggle-btn active" id="btn-normal" onclick="setView('normal')">普通</button>
@@ -244,7 +63,6 @@
       <div class="practice-title">随堂练习</div>
       <div class="question-content" id="question-text">正在生成题目...</div>
       <div class="answer-content" id="answer-text"></div>
-
       <div class="btn-group">
         <button class="ds-btn ds-btn-primary" onclick="generateNewNormal()">换一题</button>
         <button class="ds-btn ds-btn-secondary" onclick="toggleAnswer()" id="toggle-btn">查看答案</button>
@@ -293,10 +111,7 @@
       let randomQ = questions[Math.floor(Math.random() * questions.length)];
       let desc = "一辆巡逻车从岗亭出发(岗亭记为原点0)，规定向东为正、向西为负。\n巡逻车在一段时间内的行驶记录如下(单位:千米):\n\n";
 
-      return {
-        question: desc + record + "\n\n(1) " + randomQ.q,
-        answer: randomQ.a
-      };
+      return { question: desc + record + "\n\n(1) " + randomQ.q, answer: randomQ.a };
     }
 
     function setView(type) {
@@ -360,7 +175,6 @@
           actions.style.display = 'flex';
         }
       }
-
       typeStep();
     }
 
