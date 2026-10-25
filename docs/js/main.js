@@ -54,7 +54,7 @@ setTimeout(function() { document.documentElement.style.scrollBehavior = ''; }, 1
   // ================= 运行时间计算逻辑 =================
   function startRuntime(timeStr) {
     var startTime = new Date(timeStr).getTime();
-    if (isNaN(startTime)) startTime = new Date().getTime(); // 防御性处理
+    if (isNaN(startTime)) startTime = new Date().getTime(); 
 
     function updateRuntime() {
       var now = new Date().getTime();
@@ -151,7 +151,6 @@ setTimeout(function() { document.documentElement.style.scrollBehavior = ''; }, 1
       var dict = fallbackI18nDict[lang] || fallbackI18nDict.zh;
       document.querySelectorAll('[data-i18n]').forEach(function (el) {
         var key = el.getAttribute('data-i18n');
-        // 避免覆盖 config 覆盖过的 badge
         if (dict[key] != null && key !== 'badge') el.textContent = dict[key];
       });
       document.querySelectorAll('[data-i18n-placeholder]').forEach(function (el) {
