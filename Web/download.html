@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>下载提示 - GMP 出题引擎</title>
+  <script>
+    // 线上 / 线下判断
+    window.isOnline = location.protocol === 'http:' || location.protocol === 'https:';
+    // 线上基于仓库子路径，线下因为已在 Web 目录下，所以是 ./ (当前目录)
+    window.basePath = window.isOnline ? '/Math_problem_generator/Web/' : './';
+
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = window.basePath + 'css/style.css';
+    document.head.appendChild(link);
+  </script>
+  <style>
+    .download-container { max-width: 600px; margin: 180px auto 100px; padding: 0 20px; text-align: center; }
+    .download-box { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 24px; padding: 60px 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid var(--ds-border); }
+    .download-title { font-size: 28px; font-weight: 800; color: var(--ds-primary); margin-bottom: 20px; letter-spacing: 1px; }
+    .download-desc { font-size: 16px; line-height: 1.8; color: var(--ds-secondary); margin-bottom: 40px; text-align: left; }
+    .download-btn-group { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+    .btn-back { display: inline-flex; align-items: center; justify-content: center; padding: 12px 30px; border-radius: 20px; font-size: 16px; font-weight: 600; text-decoration: none; background: #f0f4ff; color: var(--ds-brand-medium); transition: all 0.3s; }
+    .btn-back:hover { background: #e0e7ff; transform: translateY(-2px); }
+    .btn-experience { display: inline-flex; align-items: center; justify-content: center; padding: 12px 30px; border-radius: 20px; font-size: 16px; font-weight: 600; text-decoration: none; background: var(--ds-brand-medium); color: #fff; box-shadow: 0 4px 15px rgba(77, 107, 254, 0.3); transition: all 0.3s; }
+    .btn-experience:hover { background: #3450d9; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(77, 107, 254, 0.4); }
+  </style>
+</head>
+<body>
+  <nav class="ds-header">
+    <div class="ds-header-bar">
+      <a href="../index.html" class="ds-logo">GMP</a>
+    </div>
+  </nav>
+
+  <div class="download-container">
+    <div class="download-box">
+      <h1 class="download-title">抱歉，目前无法下载</h1>
+      <p class="download-desc">感谢您对 GMP 出题引擎的关注！目前本产品仅提供网页版体验，无需下载安装，打开网页即可直接使用。随时随地，在浏览器中开启您的数学思维训练。</p>
+      <div class="download-btn-group">
+        <a href="../index.html" class="btn-back">返回首页</a>
+        <a href="./practice.html" class="btn-experience">去体验网页版 &rarr;</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
